@@ -134,7 +134,7 @@ em{font-style:italic;color:inherit;}
 
 /* ---------- Hero ---------- */
 .hero{
-  position:relative;min-height:100svh;background:var(--ink);color:var(--text-on-ink);
+  position:relative;min-height:var(--hero-vh, 100svh);background:var(--ink);color:var(--text-on-ink);
   display:flex;flex-direction:column;justify-content:center;overflow:hidden;
   padding-top:90px;
 }
@@ -507,10 +507,12 @@ em{font-style:italic;color:inherit;}
 
 /* ---------- Marquee ---------- */
 .marquee{
+  display:none;
   position:relative;
   background:linear-gradient(180deg,var(--ink) 0%,var(--ink-soft) 100%);
   overflow:hidden;white-space:nowrap;padding-block:19px;
 }
+@media (max-width:920px){.marquee{display:block;}}
 .marquee::before,.marquee::after{
   content:"";position:absolute;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,var(--brass) 18%,var(--brass-light) 50%,var(--brass) 82%,transparent);
@@ -21093,6 +21095,21 @@ footer.footer--ink .footer__social a:hover{border-color:var(--brass-light);color
 </footer>
 
 <script>
+// Freeze the hero's viewport-height unit so iOS Safari's address-bar
+// collapse/expand while scrolling doesn't resize (and visually "jump")
+// the hero section. Only a real width change (rotation/resize) updates it.
+let heroVHWidth = window.innerWidth;
+const setHeroVH = () => {
+  document.documentElement.style.setProperty('--hero-vh', window.innerHeight + 'px');
+};
+setHeroVH();
+window.addEventListener('resize', () => {
+  if(window.innerWidth !== heroVHWidth){
+    heroVHWidth = window.innerWidth;
+    setHeroVH();
+  }
+}, {passive:true});
+
 // Sticky nav background + shrink
 const nav = document.getElementById('nav');
 const onScroll = () => {
