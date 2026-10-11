@@ -520,6 +520,11 @@ em{font-style:italic;color:inherit;}
 .marquee::after{bottom:0;}
 .marquee__track{display:inline-flex;animation:marquee 19s linear infinite;}
 .marquee:hover .marquee__track{animation-play-state:paused;}
+.marquee__track--mobile{display:none;animation-duration:13s;}
+@media (max-width:920px){
+  .marquee__track--desktop{display:none;}
+  .marquee__track--mobile{display:inline-flex;}
+}
 .marquee__set{display:inline-flex;align-items:center;}
 .marquee__text{
   font-family:var(--display);font-style:italic;font-size:1.02rem;color:var(--text-on-ink-dim);
@@ -1052,7 +1057,37 @@ footer.footer--ink .footer__social a:hover{border-color:var(--brass-light);color
 
   <!-- ================= MARQUEE ================= -->
   <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
+    <div class="marquee__track marquee__track--desktop">
+      <div class="marquee__set">
+        <span class="marquee__text">Des produits de qualité, venus du monde entier</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Arabie Saoudite</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Maroc</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Algérie</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Dubaï</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Éthiopie</span>
+        <span class="marquee__dot"></span>
+      </div>
+      <div class="marquee__set">
+        <span class="marquee__text">Des produits de qualité, venus du monde entier</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Arabie Saoudite</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Maroc</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Algérie</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Dubaï</span>
+        <span class="marquee__dot"></span>
+        <span class="marquee__country">Éthiopie</span>
+        <span class="marquee__dot"></span>
+      </div>
+    </div>
+    <div class="marquee__track marquee__track--mobile">
       <div class="marquee__set">
         <span class="marquee__text">Bazar, parfumerie, mode et décoration&nbsp;: la richesse du monde entier réunie sous un même toit, au cœur de Lyon.</span>
         <span class="marquee__dot"></span>
@@ -21070,14 +21105,29 @@ onScroll();
 // Mobile menu
 const burger = document.getElementById('burger');
 const menu = document.getElementById('mobileMenu');
-burger.addEventListener('click', () => {
-  burger.classList.toggle('is-open');
-  menu.classList.toggle('is-open');
-});
-menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+let menuScrollY = 0;
+const openMobileMenu = () => {
+  menuScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = -menuScrollY + 'px';
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  burger.classList.add('is-open');
+  menu.classList.add('is-open');
+};
+const closeMobileMenu = () => {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  window.scrollTo(0, menuScrollY);
   burger.classList.remove('is-open');
   menu.classList.remove('is-open');
-}));
+};
+burger.addEventListener('click', () => {
+  if(menu.classList.contains('is-open')) closeMobileMenu(); else openMobileMenu();
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
 
 // Horizontal drag-to-scroll carousels — mouse drag + wheel converted to horizontal
 function initDragCarousel(track){
