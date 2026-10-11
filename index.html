@@ -181,7 +181,27 @@ em{font-style:italic;color:inherit;}
   background:radial-gradient(60% 58% at 58% 46%, rgba(217,185,104,.22) 0%, transparent 78%);
   mix-blend-mode:soft-light;
 }
-@media (min-width:921px){.hero__visual{display:block;}}
+.hero__visual--mobile{display:none;}
+@media (min-width:921px){.hero__visual--desktop{display:block;}}
+@media (max-width:920px){
+  .hero__visual--mobile{
+    display:block;top:auto;left:0;right:0;bottom:0;width:100%;height:34%;z-index:0;
+  }
+  .hero__visual--mobile img{
+    object-position:58% 90%;
+    transform:none;
+    filter:saturate(1.15) contrast(1) brightness(.95);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.45) 28%, black 58%, black 100%);
+    mask-image:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.45) 28%, black 58%, black 100%);
+  }
+  .hero__visual--mobile::after{
+    background:linear-gradient(180deg, transparent 0%, rgba(217,185,104,.18) 60%, rgba(217,185,104,.1) 100%);
+  }
+  .hero__actions .btn--ghost{
+    background:rgba(10,10,12,.55);
+    backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);
+  }
+}
 .hero__content{position:relative;z-index:2;width:100%;}
 
 .hero__status{
@@ -1003,8 +1023,11 @@ footer.footer--ink .footer__social a:hover{border-color:var(--brass-light);color
         <path class="hero__glyph-path" d="M40 386 H418 L229 216 Z" stroke="#d9b968" stroke-width="2"/>
       </svg>
     </div>
-    <div class="hero__visual hero-r" aria-hidden="true">
+    <div class="hero__visual hero__visual--desktop hero-r" aria-hidden="true">
       <img src="images/hero-visual.jpg" alt="">
+    </div>
+    <div class="hero__visual hero__visual--mobile hero-r" aria-hidden="true">
+      <img src="images/hero-visual-mobile.jpg" alt="">
     </div>
     <div class="wrap hero__content">
       <p class="hero__status hero-r" data-store-status><span class="hero__status-dot"></span><span data-store-status-text>Galerie marchande · Depuis 2009</span></p>
